@@ -10,13 +10,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = cdk.App()
-CdkPipelineStack(app, "CdkPipelineStack",
-                 env=cdk.Environment(account=os.environ.get("CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT")),
-                 )
-                
+WebserverStack(app, "WebserverStack",
+               env=cdk.Environment(account=os.environ.get(
+                   "CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT")),
+               )
+
 
 PipelineStack(app, 'PipelineStack',
-              env=cdk.Environment(account=os.environ.get("CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT")),
+              env=cdk.Environment(account=os.environ.get(
+                  "CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT")),
               )
 
 

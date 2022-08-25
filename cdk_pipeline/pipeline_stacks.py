@@ -8,9 +8,10 @@ from aws_cdk import (
     aws_codepipeline_actions as cpactions,
     SecretValue
 )
-
+import aws_cdk as cdk
 from constructs import Construct
 from .webserver_stages import WebserverStage
+import os
 
 
 class PipelineStack(Stack):
@@ -27,7 +28,7 @@ class PipelineStack(Stack):
 
                                           synth=pipelines.ShellStep("Synth",
                                                                     input=pipelines.CodePipelineSource.git_hub(
-                                                                        "Bao-Truong/cdkpipeline", "master", authentication=SecretValue.secretsManager("github-token"),
+                                                                        "Bao-Truong/cdkpipeline", "master", authentication=SecretValue.secrets_manager('github-token'),
                                                                         trigger=cpactions.GitHubTrigger.POLL),
                                                                     commands=[
                                                                         "npm install -g aws-cdk", "python -m pip install -r requirements.txt", "cdk synth"]
@@ -36,11 +37,11 @@ class PipelineStack(Stack):
 
         wave = pipeline.add_wave("wave")
 
-        useast1_stage = wave.add_stage(WebserverStage(self, "webserStage",
+        useast2_stage = wave.add_stage(WebserverStage(self, "webserStage-useast-2",
                                                       env=cdk.Environment(account=os.environ.get(
                                                           "CDK_DEFAULT_ACCOUNT"), region="us-east-2")
                                                       ))
-        useastr2_stage = wave.add_stage(WebserverStage(self, "webserStage",
+        useast1_stage = wave.add_stage(WebserverStage(self, "webserStage-useast-1",
                                                        env=cdk.Environment(account=os.environ.get(
                                                            "CDK_DEFAULT_ACCOUNT"), region="us-east-1")
                                                        ))
@@ -50,5 +51,5 @@ class PipelineStack(Stack):
         #                                                   ))
         # testing_stage.add_post(ManualApprovalStep('approval'))
 
-        useast1_stage.add_post(cpactions.ManualApprovalAction('approval'))
-        useast2_stage.add_post(cpactions.ManualApprovalAction('approval'))
+        useast1_stage.add_post(pipelines.ManualApprovalStep('approval'))
+        useast2_stage.add_post(pipelines.ManualApprovalStep('approval'))

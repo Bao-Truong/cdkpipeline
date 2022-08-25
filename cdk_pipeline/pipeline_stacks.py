@@ -51,5 +51,5 @@ class PipelineStack(Stack):
         #                                                   ))
         # testing_stage.add_post(ManualApprovalStep('approval'))
 
-        useast1_stage.add_post(pipelines.ManualApprovalStep('approval'))
-        useast2_stage.add_post(pipelines.ManualApprovalStep('approval'))
+        useast1_stage.add_pre(pipelines.ManualApprovalStep('approval'))
+        useast2_stage.add_pre(pipelines.ManualApprovalStep('approval'))

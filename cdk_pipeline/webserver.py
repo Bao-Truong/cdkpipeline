@@ -24,5 +24,5 @@ class WebserverStack(Stack):
                                  description="Endpoint for a simple Lambda-powered webserver",
                                  handler=handler.current_version)
 
-        # self.url_output = CfnOutput(self, 'Url',
-        #                             value=gw.url)
+        self.url_output = CfnOutput(self, 'Url',
+                                    value=gw.url)

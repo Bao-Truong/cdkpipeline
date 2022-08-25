@@ -3,17 +3,20 @@ import os
 
 import aws_cdk as cdk
 
-from cdk_pipeline.cdk_pipeline_stack import CdkPipelineStack
+from cdk_pipeline.webserver import WebserverStack
 from cdk_pipeline.pipeline_stacks import PipelineStack
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = cdk.App()
 CdkPipelineStack(app, "CdkPipelineStack",
-                 env=cdk.Environment(account='956722820961', region='us-east-2'),
+                 env=cdk.Environment(account=os.environ.get("CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT")),
                  )
                 
 
 PipelineStack(app, 'PipelineStack',
-              env=cdk.Environment(account='956722820961', region='us-east-2'),
+              env=cdk.Environment(account=os.environ.get("CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT")),
               )
 
 

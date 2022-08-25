@@ -37,14 +37,14 @@ class PipelineStack(Stack):
 
         wave = pipeline.add_wave("wave")
 
+        useast1_stage = wave.add_stage(WebserverStage(self, "webserStage-useast-1",
+                                                      env=cdk.Environment(account=os.environ.get(
+                                                          "CDK_DEFAULT_ACCOUNT"), region="us-east-1")
+                                                      ))
         useast2_stage = wave.add_stage(WebserverStage(self, "webserStage-useast-2",
                                                       env=cdk.Environment(account=os.environ.get(
                                                           "CDK_DEFAULT_ACCOUNT"), region="us-east-2")
                                                       ))
-        useast1_stage = wave.add_stage(WebserverStage(self, "webserStage-useast-1",
-                                                       env=cdk.Environment(account=os.environ.get(
-                                                           "CDK_DEFAULT_ACCOUNT"), region="us-east-1")
-                                                       ))
         # testing_stage = pipeline.add_stage(WebserverStage(self, "webserStage",
         #                                                   env=cdk.Environment(account=os.environ.get(
         #                                                       "CDK_DEFAULT_ACCOUNT"), region=os.environ.get("CDK_DEFAULT_ACCOUNT"))

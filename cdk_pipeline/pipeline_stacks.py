@@ -21,12 +21,14 @@ class PipelineStack(Stack):
 
         pipeline = pipelines.CodePipeline(self, 'Pipeline',
 
-                                          cloud_assembly_artifact=cloud_assembly_artifact,
 
                                           pipeline_name='WebinarPipeline',
 
-                                          synth =pipelines.ShellStep("Synth",
-                                                                     input=pipelines.CodePipelineSource.git_hub("Bao-Truong/cdkpipeline","master",authentication=SecretValue.secrets_manager("github_token")),
-                                                                     commands=["npm install -g aws-cdk","python -m pip install -r requirements.txt","cdk synth"]
+                                          synth=pipelines.ShellStep("Synth",
+                                                                    input=pipelines.CodePipelineSource.git_hub(
+                                                                        "Bao-Truong/cdkpipeline", "master", authentication=SecretValue.secrets_manager("github_token"),
+                                                                        trigger=cpactions.GitHubTrigger.POLL),
+                                                                    commands=[
+                                                                        "npm install -g aws-cdk", "python -m pip install -r requirements.txt", "cdk synth"]
+                                                                    )
                                           )
-        )

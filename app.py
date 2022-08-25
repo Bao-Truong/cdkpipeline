@@ -12,7 +12,7 @@ CdkPipelineStack(app, "CdkPipelineStack",
                  )
                 
 
-PipelineStack(app, 'PipelinStacks',
+PipelineStack(app, 'PipelineStack',
               env=cdk.Environment(account='956722820961', region='us-east-2'),
               )
 
